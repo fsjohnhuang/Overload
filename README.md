@@ -4,25 +4,21 @@ Overload.js
 
 ### In This Documentation
 [1. Basic Usage](#basic-usage)<br/>
-&nbsp;[Create Overload$Params Instance](#create-overload$params-instance)<br/>
-&nbsp;[Define Formal Parameters with Exact Arity](#define-formal-parameters-with-exact-arity)<br/>
-&nbsp;[Define Formal Parameters with String](#define-formal-parameters-with-string)<br/>
-&nbsp;[Define Formal Parameters with Structure](#define-formal-parameters-with-structure)<br/>
-&nbsp;[Define Formal Parameters with User-defined Function](#define-formal-parameters-with-user-defined-function)<br/>
+&emsp;[Create Overload$Params Instance](#create-overload$params-instance)<br/>
+&emsp;[Define Formal Parameters with Exact Arity](#define-formal-parameters-with-exact-arity)<br/>
+&emsp;[Define Formal Parameters with String](#define-formal-parameters-with-string)<br/>
+&emsp;[Define Formal Parameters with Structure](#define-formal-parameters-with-structure)<br/>
+&emsp;[Define Formal Parameters with User-defined Function](#define-formal-parameters-with-user-defined-function)<br/>
 [2. Advance Usage](#advance-usage)<br/>
-&nbsp;[Existing Pattern-match](#existing-pattern-match)<br/>
-&nbsp;[Type of Property/Element Pattern-match](#type-of-propertyelement-pattern-match)<br/>
-&nbsp;[Default Value of Property/Elemen Pattern-match](default-value-of-propertyelement-pattern-match)<br/>
+&emsp;[Existing Pattern-match](#existing-pattern-match)<br/>
+&emsp;[Type of Property/Element Pattern-match](#type-of-propertyelement-pattern-match)<br/>
+&emsp;[Default Value of Property/Elemen Pattern-match](default-value-of-propertyelement-pattern-match)<br/>
 [3. Configuration](#configuration)<br/>
-&nbsp;[Define Type Predication](#define-type-predication)<br/>
+&emsp;[Define Type Predication](#define-type-predication)<br/>
 [4. API](#api)<br/>
 &nbsp;[Constructor](#constructor)<br/>
-&emsp;[D(num)](#Dnum)<br/>
+&emsp;[Overload()](#Overload)<br/>
 &nbsp;[Function Properties](#function-properties)<br/>
-&emsp;[D.add(opr1, opr2)](#Daddopr1-opr2)<br/>
-&emsp;[D.minus/sub(minuend, subtractor)](#Dminussubminuend-subtractor)<br/>
-&emsp;[D.mul(opr1, opr2)](#Dmulopr1-opr2)<br/>
-&emsp;[D.div(dividend, divisor)](#Ddivdividend-divisor)<br/>
 [5. Change Log](#change-log)<br/>
 ## Basic Usage 
 ```
@@ -38,7 +34,7 @@ var msg = foo("there", 123) // display "other:123"
 console.log(msg)            // display "hi, there!"
 foo(123)                    // throw Error
 ```
-### Create Overload$Params Instance
+#### Create Overload$Params Instance
 ```
 var params1 = Overload.params("Number", "String")
 var params2 = Overload.params(3)
@@ -54,24 +50,24 @@ foo(1,"",3) // display "foo-param2"
 bar(1,"")   // display "bar-param1"
 bar(1,"",3) // display "bar-param2"
 ```
-### Define Formal Parameters with Exact Arity
+#### Define Formal Parameters with Exact Arity
 ```
 var params0 = Overload.params()
 var params4 = Overload.params(4)
 ```
-### Define Formal Parameters by String
+#### Define Formal Parameters by String
 ```
 var paramsWithType = Overload.params("Number", "String", "RegExp")
 var paramsWithDefaultValue = Overload.params("Number", "String", "RegExp=/\\d+/i")
 var paramsWithEllipsis = Overload.params("Number", "String", "String...")
 ```
-### Define Formal Parameters by Structure
+#### Define Formal Parameters by Structure
 ```
 var paramsWithType = Overload.params(Number, String, RegExp)
 var paramsWithDefaultValue = Overload.params(Number, String, {type:RegExp, val:/\d+/i})
 var paramsWithEllipsis = Overload.params(Number, String, {type:String, isParams: true})
 ```
-### Define Formal Parameters by User-defined Function
+#### Define Formal Parameters by User-defined Function
 ```
 var params = Overload.params(function(arg){
                           return arg instanceof jQuery
@@ -82,7 +78,7 @@ var params = Overload.params(function(arg){
 ```
 ## Advance Usage 
 We can define formal parameters by pattern-match.<br/>
-### Existing Pattern-match
+#### Existing Pattern-match
 ```
 var params = Overload.params("{key, value}")
 var foo = Overload.route(params, function(keyValuePair){
@@ -99,7 +95,7 @@ var foo = Overload.route(params, function(coll){
 foo([1,2,3]) // display "3"
 foo([1])     // throw Error
 ```
-### Type of Property/Element Pattern-match
+#### Type of Property/Element Pattern-match
 ```
 var params = Overload.params("{key:String, value:String}")
 var foo = Overload.route(params, function(keyValuePair){
@@ -116,7 +112,7 @@ var foo = Overload.route(params, function(coll){
 foo(["str", 2]) // display "str:2"
 foo([1, "str"]) // throw Error
 ```
-### Default Value of Property/Element Pattern-match
+#### Default Value of Property/Element Pattern-match
 ```
 var params = Overload.params("{key:String, value='Overload.js'}")
 var foo = Overload.route(params, function(keyValuePair){
@@ -137,7 +133,7 @@ foo(["str", null]) // display "str:12"
 foo([1, "str"]) // throw Error
 ```
 ## Configuration
-### Define Type Predication
+#### Define Type Predication
 ```
 Overload.defType('$', function(o){
   return o instanceof jQuery
