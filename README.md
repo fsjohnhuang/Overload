@@ -4,12 +4,12 @@ Overload.js
 
 ### In This Documentation
 [1. Basic Usage](#basic-usage)<br/>
-&emsp;[Create Overload$Params Instance](#create-overload$params-instance)<br/>
-&emsp;[Define Formal Parameters with Exact Arity](#define-formal-parameters-with-exact-arity)<br/>
-&emsp;[Define Formal Parameters with String](#define-formal-parameters-with-string)<br/>
-&emsp;[Define Formal Parameters with Structure](#define-formal-parameters-with-structure)<br/>
-&emsp;[Define Formal Parameters with User-defined Function](#define-formal-parameters-with-user-defined-function)<br/>
-[2. Advance Usage](#advance-usage)<br/>
+&emsp;[Create Overload$Params Instance](#create-overloadparams-instance)<br/>
+&emsp;[Define Formal Parameters by Exact Arity](#define-formal-parameters-by-exact-arity)<br/>
+&emsp;[Define Formal Parameters by String](#define-formal-parameters-by-string)<br/>
+&emsp;[Define Formal Parameters by Structure](#define-formal-parameters-by-structure)<br/>
+&emsp;[Define Formal Parameters by User-defined Function](#define-formal-parameters-by-user-defined-function)<br/>
+[2. Advanced Usage](#advanced-usage)<br/>
 &emsp;[Existing Pattern-match](#existing-pattern-match)<br/>
 &emsp;[Type of Property/Element Pattern-match](#type-of-propertyelement-pattern-match)<br/>
 &emsp;[Default Value of Property/Elemen Pattern-match](default-value-of-propertyelement-pattern-match)<br/>
@@ -50,7 +50,7 @@ foo(1,"",3) // display "foo-param2"
 bar(1,"")   // display "bar-param1"
 bar(1,"",3) // display "bar-param2"
 ```
-#### Define Formal Parameters with Exact Arity
+#### Define Formal Parameters by Exact Arity
 ```
 var params0 = Overload.params()
 var params4 = Overload.params(4)
@@ -76,7 +76,7 @@ var params = Overload.params(function(arg){
 			  return arg.age > 10
 			})
 ```
-## Advance Usage 
+## Advanced Usage 
 We can define formal parameters by pattern-match.<br/>
 #### Existing Pattern-match
 ```
