@@ -1,4 +1,4 @@
-Overload.js
+![](./logo.jpg)Overload.js
 =======
 **Overload** is a standalone library which to mimic function overloading for JavaScript.
 
