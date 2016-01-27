@@ -18,6 +18,7 @@
 &nbsp;[Constructor](#constructor)<br/>
 &emsp;[Overload()](#Overload)<br/>
 &nbsp;[Function Properties](#function-properties)<br/>
+&nbsp;[Overload$Proxy Instance Methods](#constructor)<br/>
 [5. Change Log](#change-log)<br/>
 ## Basic Usage 
 ```
@@ -58,7 +59,8 @@ var params4 = Overload.params(4)
 ```
 var paramsWithType = Overload.params("Number", "String", "RegExp")
 var paramsWithDefaultValue = Overload.params("Number", "String", "RegExp=/\\d+/i")
-var paramsWithEllipsis = Overload.params("Number", "String", "String...")
+var paramsWithEllipsis = Overload.params("Number", "String", "...")
+var paramsWithTypedEllipsis = Overload.params("Number", "String", "String...")
 ```
 #### Define Formal Parameters by Structure
 ```
@@ -144,16 +146,63 @@ Overload.isType($(), '$') // display "true"
 ### Constructor
 #### `Overload()`
 **@description** Create new Overload object<br/>
-**@returns** {Overload} - The Overload object<br/>
+**@returns** {Overload$Proxy} - The Overload$Proxy object<br/>
 ```
 var foo = Overload()
 ```
 
 ### Function Properties
-#### `D.params()`
-**@description** Do addition operation.<br/>
-**@param** {D|Number|DOMString} opr1 - The raw number value, excludes scientific notation<br/>
-**@param** {D|Number|DOMString} opr2 - The raw number value, excludes scientific notation<br/>
-**@returns** {D} - The D object<br/>
+#### `Overload.params(formalParamDefinition)`
+**@description** Define formal parameters.<br/>
+**@param** {[String|Function|POJO|Number]...} [formalParamDefinition] - formal parameter definition, default value is 0<br/>
+**@returns** {Overload$Params} - FormalParameterDefinition instance<br/>
+```
+```
+#### `Overload.route(formalParamDefinition, overloadedFunction)`
+**@description** Bind overloaded function to specific formal parameter definition.<br/>
+**@param** {[[String|Function|POJO|Number]...|Overload$Params]} [formalParamDefinition] - formal parameter definition<br/>
+**@param** {Function} overloadedFunction - overloaded function<br/>
+**@returns** {Overload$Proxy} - Overload$Proxy instance<br/>
+```
+```
+#### `Overload.defType(type, typePredication)`
+**@description** Define predication of user-defined type.<br/>
+**@param** {String} type - user-defined type<br/>
+**@param** {Function} typePredication - predication of user-defined type<br/>
+**@returns** {Overload} - Overload instance<br/>
+```
+```
+#### `Overload.isType(val, type)`
+**@description** Predicate the type of val is the same as argument type whether or not.<br/>
+**@param** {Any} val - value<br/>
+**@param** {String} type - data type<br/>
+**@returns** {Boolean}<br/>
+```
+```
+#### `Overload.config(key, val)`
+**@description** Global configuration<br/>
+**@param** {String} key<br/>
+**@param** {Any} val<br/>
+**@returns** {Overload}<br/>
+```
+```
+### Overload$Proxy Instance Methods
+#### `Overload$Proxy#route(formalParamDefinition, overloadedFunction)`
+**@description** Bind overloaded function to specific formal parameter definition.<br/>
+**@param** {[[String|Function|POJO|Number]...|Overload$Params]} [formalParamDefinition] - formal parameter definition<br/>
+**@param** {Function} overloadedFunction - overloaded function<br/>
+**@returns** {Overload$Proxy} - Overload$Proxy instance<br/>
+```
+```
+#### `Overload$Proxy#seal()`
+**@description** Return a pure overloaded function entry.<br/>
+**@returns** {Function} - overloaded function entry<br/>
+```
+```
+
+## REF
+[nathggns/Overload](https://github.com/nathggns/Overload.git)<br/>
+[JosephClay/overload-js](https://github.com/JosephClay/overload-js.git)<br/>
+[Moeriki/overload-js](https://github.com/Moeriki/overload-js.git)<br/>
 
 ## Change log
