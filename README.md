@@ -21,18 +21,43 @@
 &nbsp;[Overload$Proxy Instance Methods](#constructor)<br/>
 [5. Change Log](#change-log)<br/>
 ## Basic Usage 
+Overload functions or constructors.<br/>
 ```
-var foo = Overload()
-foo.route("String", "Number", function(name, other){
-  console.log("other:" + other)
-  return foo(name)
+var Foo = Overload()
+Foo.prototype.getName = function(){return this.name}
+Foo.prototype.getAge = function(){return this.age}
+
+Foo.route("String", "Number", function(name, age){
+  this.name = name
+  this.age = age
+
+  return "name:" + name + ";age:" + age // would be ignore when Foo called by new operator
 })
-foo.route("String", function(name){
-  return "hi, " + name + "!"
+Foo.route("String", function(name){
+  this.name = name
+  this.age = 18
+
+  return "name:" + name + ";age:" + age // would be ignore when Foo called by new operator
 })
-var msg = foo("there", 123) // display "other:123"
-console.log(msg)            // display "hi, there!"
-foo(123)                    // throw Error
+Foo.seal()
+
+/* function overloading */
+Foo() // throw Error
+Foo("fsjohnhuang", 12) // return "name:fsjohnhuang;age:12"
+Foo("fsjohnhuang") // return "name:fsjohnhuang;age:18"
+
+/* constructor overloading */
+var f = new Foo() // throw Error
+var f = new Foo("fsjohnhuang", 12) 
+f.name                           // return "fsjohnhuang"
+f.age                            // return 12
+f.getName()                      // return "fsjohnhuang"
+f.getAge()                       // return 12
+var f = new Foo("fsjohnhuang") 
+f.name                           // return "fsjohnhuang"
+f.age                            // return 18
+f.getName()                      // return "fsjohnhuang"
+f.getAge()                       // return 18
 ```
 #### Create Overload$Params Instance
 ```
@@ -200,7 +225,7 @@ var foo = Overload()
 ```
 ```
 
-## REF
+## Ref
 [nathggns/Overload](https://github.com/nathggns/Overload.git)<br/>
 [JosephClay/overload-js](https://github.com/JosephClay/overload-js.git)<br/>
 [Moeriki/overload-js](https://github.com/Moeriki/overload-js.git)<br/>
