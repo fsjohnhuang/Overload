@@ -19,7 +19,6 @@
 &emsp;[Define Type Predication](#define-type-predication)<br/>
 [4. API](#api)<br/>
 &nbsp;[Constructor](#constructor)<br/>
-&emsp;[Overload()](#Overload)<br/>
 &nbsp;[Function Properties](#function-properties)<br/>
 &nbsp;[Overload$Proxy Instance Methods](#constructor)<br/>
 [5. Change Log](#change-log)<br/>
