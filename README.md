@@ -21,7 +21,8 @@
 &nbsp;[Constructor](#constructor)<br/>
 &nbsp;[Function Properties](#function-properties)<br/>
 &nbsp;[Overload$Proxy Instance Methods](#constructor)<br/>
-[5. Change Log](#change-log)<br/>
+[5. Ref](#ref)<br/>
+[6. Change Log](#change-log)<br/>
 ## Basic Usage 
 Overload functions or constructors.<br/>
 ```
