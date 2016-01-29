@@ -1,5 +1,5 @@
 ![](./logo.jpg)<br/>
-**Overload** is a standalone library which to mimic function overloading for JavaScript.
+**Overload** is not only a standalone library which to mimic function overloading for JavaScript.
 
 ### In This Documentation
 [1. Basic Usage](#basic-usage)<br/>
@@ -12,6 +12,9 @@
 &emsp;[Existing Pattern-match](#existing-pattern-match)<br/>
 &emsp;[Type of Property/Element Pattern-match](#type-of-propertyelement-pattern-match)<br/>
 &emsp;[Default Value of Property/Elemen Pattern-match](default-value-of-propertyelement-pattern-match)<br/>
+&emsp;[Destructuring as ES6](destructuring-as-es6)<br/>
+&emsp;&emsp;[Object Destructuring](object-destructuring)<br/>
+&emsp;&emsp;[Array Destructuring](array-destructuring)<br/>
 [3. Configuration](#configuration)<br/>
 &emsp;[Define Type Predication](#define-type-predication)<br/>
 [4. API](#api)<br/>
@@ -123,7 +126,7 @@ foo([1])     // throw Error
 ```
 #### Type of Property/Element Pattern-match
 ```
-var params = Overload.params("{key:String, value:String}")
+var params = Overload.params("{key::String, value::String}")
 var foo = Overload.route(params, function(keyValuePair){
   console.log(keyValuePair.key + ": " + keyValuePair.value)
 })
@@ -140,7 +143,7 @@ foo([1, "str"]) // throw Error
 ```
 #### Default Value of Property/Element Pattern-match
 ```
-var params = Overload.params("{key:String, value='Overload.js'}")
+var params = Overload.params("{key::String, value='Overload.js'}")
 var foo = Overload.route(params, function(keyValuePair){
   console.log(keyValuePair.key + ": " + keyValuePair.value)
 })
@@ -157,6 +160,83 @@ foo(["str", "val"]) // display "str:val"
 foo(["str", undefined]) // display "str:12"
 foo(["str", null]) // display "str:12"
 foo([1, "str"]) // throw Error
+```
+#### Destructuring as ES6
+##### Object Destructuring
+```
+var foo1 = Overload.destruct("{x,y}", "test", function(arg1, arg2){
+  console.log("x:" + x + ";y:" + y)
+  console.log("arg1.x:" + arg1.x + ";arg1.y:" + arg1.y + ";arg1.z:" + arg1.z)
+  console.log("arg2:" +  arg2)
+}).seal()
+foo1({x:1,y:2,z:3}, "test")
+// display
+// "x:1;y:2"
+// "arg1.x:1;arg1.y:2;arg1.z:3"
+// "arg2:test"
+foo1({x:1,z:3}, "test")
+// display
+// "x:1;y:undefined"
+// "arg1.x:1;arg1.y:undefined;arg1.z:3"
+// "arg2:test"
+
+var foo2 = Overload.destruct("{x = 1,y}", function(arg1){
+  console.log("x:" + x + ";y:" + y)
+}).seal()
+foo2()      // display "x:1;y:undefined"
+foo2({})    // display "x:1;y:undefined"
+foo2({y:2}) // display "x:1;y:2"
+
+var foo3 = Overload.destruct("{x:z, y:obj.d}", function(arg1){
+  try{
+    console.log("x:" + x)
+  }
+  catch(e){
+    console.log(e.message)
+  }
+  console.log("z:" + z)
+  console.log("obj:" + JSON.stringify(obj))
+}).seal()
+foo3({x:1,y:3})
+// display
+// "throw error: x is not defined"
+// "z:1"
+// "obj:{d:3}"
+
+var foo4 = Overload.destruct("{x, y} = {x:1,y:2}", function(arg1){
+  console.log("x:" + x + ";y:" + y)
+}).seal()
+foo3({}) // display "x:undefined;y:undefined"
+foo3()   // display "x:1;y:2"
+```
+##### Array Destructuring
+```
+var bar1 = Overload.destruct("[x, y]", function(){
+  console.log("x:" + x + ";y:" + y)
+}).seal()
+bar1([1,2]) // display "x:1;y:2"
+bar1([1])   // display "x:1;y:undefined"
+bar1([])    // display "x:undefined;y:undefined"
+
+var bar2 = Overload.destruct("[x, y = 10]", function(){
+  console.log("x:" + x + ";y:" + y)
+}).seal()
+bar2([1,2]) // display "x:1;y:2"
+bar2([1])   // display "x:1;y:10"
+bar2([])    // display "x:undefined;y:10"
+
+var bar3 = Overload.destruct("[, , y = 10]", function(){
+  console.log("y:" + y)
+}).seal()
+bar3([1,2])   // display "y:10"
+bar3([1,2,3]) // display "y:3"
+bar3()        // display "y:10"
+
+var bar4 = Overload.destruct("[, , ...y]", function(){
+  console.log("y:" + JSON.stringify(y))
+}).seal()
+bar4([1,2,3,4,5])   // display "y:[3,4,5]"
+bar4([1,2])         // display "y:[]"
 ```
 ## Configuration
 #### Define Type Predication
@@ -181,35 +261,54 @@ var foo = Overload()
 **@description** Define formal parameters.<br/>
 **@param** {[String|Function|POJO|Number]...} [formalParamDefinition] - formal parameter definition, default value is 0<br/>
 **@returns** {Overload$Params} - FormalParameterDefinition instance<br/>
-```
-```
 #### `Overload.route(formalParamDefinition, overloadedFunction)`
 **@description** Bind overloaded function to specific formal parameter definition.<br/>
 **@param** {[[String|Function|POJO|Number]...|Overload$Params]} [formalParamDefinition] - formal parameter definition<br/>
 **@param** {Function} overloadedFunction - overloaded function<br/>
 **@returns** {Overload$Proxy} - Overload$Proxy instance<br/>
-```
-```
+#### `Overload.destruct(formalParamDefinition, overloadedFunction)`
+**@description** Bind overloaded function to specific formal parameter definition.<br/>
+**@param** {[[String|Function|POJO|Number]...|Overload$Params]} [formalParamDefinition] - formal parameter definition<br/>
+**@param** {Function} overloadedFunction - overloaded function<br/>
+**@returns** {Overload$Proxy} - Overload$Proxy instance<br/>
 #### `Overload.defType(type, typePredication)`
 **@description** Define predication of user-defined type.<br/>
-**@param** {String} type - user-defined type<br/>
-**@param** {Function} typePredication - predication of user-defined type<br/>
+**@param** {String|Object.<type:typePredication>} type - user-defined type<br/>
+**@param** {Function} [typePredication] - predication of user-defined type<br/>
 **@returns** {Overload} - Overload instance<br/>
-```
-```
 #### `Overload.isType(val, type)`
 **@description** Predicate the type of val is the same as argument type whether or not.<br/>
 **@param** {Any} val - value<br/>
 **@param** {String} type - data type<br/>
 **@returns** {Boolean}<br/>
-```
-```
 #### `Overload.config(key, val)`
 **@description** Global configuration<br/>
-**@param** {String} key<br/>
-**@param** {Any} val<br/>
+**@param** {String|Object.<key:val>} key<br/>
+**@param** {Any} [val]<br/>
 **@returns** {Overload}<br/>
 ```
+Overload.config({
+  /*
+   * indicate when there are multiple best matching what would be done
+   * error (default value) throw error.
+   * info                  print infomation on console.
+   */
+  multiMatch: "error",
+  /*
+   * indicate when there are syntax bugs in the pattern string what would be done
+   * error (default value) throw error.
+   * info                  print infomation on console, then ignore the invalid routing.
+   */
+  patternParserMode: "error",
+  /* 
+   * mode of argument destructuring 
+   * fast (default value) would set the properties of global object(or window) named by pattern temporarily,
+   *                      more efficient but would bury some pigfalls.
+   * safe                 would reflect the original function by eval or Function at definition time,
+   *                      safe but inefficient.
+   */
+  destructMode: "fast"
+})
 ```
 ### Overload$Proxy Instance Methods
 #### `Overload$Proxy#route(formalParamDefinition, overloadedFunction)`
@@ -217,17 +316,20 @@ var foo = Overload()
 **@param** {[[String|Function|POJO|Number]...|Overload$Params]} [formalParamDefinition] - formal parameter definition<br/>
 **@param** {Function} overloadedFunction - overloaded function<br/>
 **@returns** {Overload$Proxy} - Overload$Proxy instance<br/>
-```
-```
+#### `Overload$Proxy#destruct(formalParamDefinition, overloadedFunction)`
+**@description** Bind overloaded function to specific formal parameter definition.<br/>
+**@param** {[[String|Function|POJO|Number]...|Overload$Params]} [formalParamDefinition] - formal parameter definition<br/>
+**@param** {Function} overloadedFunction - overloaded function<br/>
+**@returns** {Overload$Proxy} - Overload$Proxy instance<br/>
 #### `Overload$Proxy#seal()`
 **@description** Return a pure overloaded function entry.<br/>
 **@returns** {Function} - overloaded function entry<br/>
-```
-```
 
 ## Ref
 [nathggns/Overload](https://github.com/nathggns/Overload.git)<br/>
 [JosephClay/overload-js](https://github.com/JosephClay/overload-js.git)<br/>
 [Moeriki/overload-js](https://github.com/Moeriki/overload-js.git)<br/>
+[ES6-变量的解构赋值](http://es6.ruanyifeng.com/#docs/destructuring)<br/>
+[ES6-函数的扩展](http://es6.ruanyifeng.com/#docs/function)<br/>
 
 ## Change log
