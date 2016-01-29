@@ -13,8 +13,8 @@
 &emsp;[Type of Property/Element Pattern-match](#type-of-propertyelement-pattern-match)<br/>
 &emsp;[Default Value of Property/Elemen Pattern-match](default-value-of-propertyelement-pattern-match)<br/>
 &emsp;[Destructuring as ES6](destructuring-as-es6)<br/>
-&emsp;&emsp;[Object Destructuring](object-destructuring)<br/>
-&emsp;&emsp;[Array Destructuring](array-destructuring)<br/>
+&emsp;&emsp;[Object Destructuring](#object-destructuring)<br/>
+&emsp;&emsp;[Array Destructuring](#array-destructuring)<br/>
 [3. Configuration](#configuration)<br/>
 &emsp;[Define Type Predication](#define-type-predication)<br/>
 [4. API](#api)<br/>
